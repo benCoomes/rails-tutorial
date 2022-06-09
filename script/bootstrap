@@ -1,0 +1,17 @@
+#!/bin/bash
+
+if ! $(ruby -v | grep -q "3\.1\.2"); then
+  echo "installing ruby version 3.1.2"
+  rvm install 3.1.2
+  rvm --default use 3.1.2
+fi
+
+if ! $(rails -v | grep -q "7\.0\.3"); then
+  echo "installing rails version 7.0.3"
+  gem install rails -v 7.0.3
+fi
+
+if ! $(bundler -v | grep -q "2\.3\.14"); then
+  echo "installing bundler version 2.3.14"
+  gem install bundler -v 2.3.14
+fi
