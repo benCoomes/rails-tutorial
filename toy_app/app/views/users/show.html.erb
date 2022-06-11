@@ -1,7 +1,16 @@
 <p style="color: green"><%= notice %></p>
 
+<h2>User</h2>
 <%= render @user %>
 
+<h2>Posts</h2>
+<ul>
+<% @user.microposts.each do |mp| %>
+  <li><%= mp.content %></li>
+<% end %>
+</ul>
+
+<h2>Manage</h2>
 <div>
   <%= link_to "Edit this user", edit_user_path(@user) %> |
   <%= link_to "Back to users", users_path %>
