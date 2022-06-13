@@ -4,6 +4,6 @@ class RootTest < ActionDispatch::IntegrationTest
     # without moving this test to that file?
     get root_url
     assert_response :success
-    assert_select "title", "Home | MP"
+    assert_select "title", "MICROPOSTS"
   end
 end
