@@ -26,7 +26,18 @@ class BikesController < ApplicationController
 
   # PATCH/PUT /bikes/1
   def update
-    if @bike.update(bike_params)
+    # Example allowing assignment by name (string) or ID (int) in the same param
+    bparams = bike_params
+    rider_id = bparams["rider_id"]
+    if rider_id.is_a? String
+      matches = Rider.where(name: rider_id).limit(2)
+      # TODO - throw if 2+ results - ambigious name (or enforce unique name)
+      unless matches.empty?
+        bparams["rider_id"] = matches.first.id
+      end
+    end
+
+    if @bike.update(bparams)
       render json: @bike
     else
       render json: @bike.errors, status: :unprocessable_entity
@@ -46,6 +57,6 @@ class BikesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def bike_params
-      params.require(:bike).permit(:model, :year, :slug, :description)
+      params.require(:bike).permit(:model, :year, :slug, :description, :rider_id)
     end
 end
