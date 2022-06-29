@@ -49,8 +49,15 @@ class UserTest < ActiveSupport::TestCase
 
   test "emails should be unique" do
     dup_user = @user.dup
-    dup_user.email.upcase!
     @user.save
     assert_not dup_user.valid?
+  end
+
+  test "emails stored as lowercase" do
+    upcase_email = @user.email.upcase
+    @user.email = upcase_email
+    @user.save
+    @user.reload
+    assert_not_equal @user.email, upcase_email
   end
 end
