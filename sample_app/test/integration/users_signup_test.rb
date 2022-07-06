@@ -35,9 +35,9 @@ class UsersSignupTest < ActionDispatch::IntegrationTest
     end
   end
 
-  test "valid user is saved" do
+  test "valid user is saved and shown" do
     get signup_path
-    assert_difference "User.count" do
+    assert_difference "User.count", 1 do
       post users_path, params: {
         user: {
           name: "valid name",
@@ -49,11 +49,14 @@ class UsersSignupTest < ActionDispatch::IntegrationTest
     end
 
     assert_response 302
+    follow_redirect!
+    assert_template 'users/show'
+    assert_select '[data-test-id="main-flash"]', 1
   end
 
   test "tests are isolated at data layer part 1" do
     get signup_path
-    assert_difference "User.count" do
+    assert_difference "User.count", 1 do
       post users_path, params: {
         user: {
           name: "same name",
@@ -69,7 +72,7 @@ class UsersSignupTest < ActionDispatch::IntegrationTest
 
   test "tests are isolated at data layer part 2" do
     get signup_path
-    assert_difference "User.count" do
+    assert_difference "User.count", 1 do
       post users_path, params: {
         user: {
           name: "same name",
