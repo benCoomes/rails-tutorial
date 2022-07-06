@@ -5,8 +5,14 @@
   <body style="font-family: consolas">
     <%= render "layouts/header" %>
     <div class="container">
+      <% flash.each do |message_type, message| %>
+        <div class="alert alert-<%= message_type %>" data-test-id="main-flash">
+          <%= message %>
+        </div>
+      <% end %>
       <%= yield %>
       <%= render "layouts/footer" %>
+      <%= debug(params) if Rails.env.development? %>
     </div>
   </body>
 </html>
